@@ -15,3 +15,10 @@ A simple web application that uses the [Imgflip API](https://imgflip.com/api) to
 - Start the development server with `pnpm run dev`.
 - Open your browser and navigate to `http://localhost:5173`.
 - Start generating memes!
+
+
+## Resources
+- https://tailwindcss.com/docs/
+- https://www.geeksforgeeks.org/how-to-place-text-on-image-using-html-and-css/#2-using-css-backgroundimage-to-place-text-on-the-image
+-https://stackoverflow.com/questions/54618144/tailwind-css-how-to-code-pixel-perfect-design
+-https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_backgrounds_and_borders/Using_multiple_backgrounds
