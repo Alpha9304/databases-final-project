@@ -58,7 +58,13 @@ function createMemeText(which: string): HTMLElement{
     return text;
 }
 
-async function generateMeme() {
+function generateOnEnter(event: KeyboardEvent): void {
+    if(event.key === "Enter"){
+        generateMeme();
+    }
+}
+
+async function generateMeme() { //function typing?
     memeSection.innerHTML = "";
     errorText.innerText = "";
     topTextInput.classList.add("border-stone-200");
@@ -67,9 +73,6 @@ async function generateMeme() {
     bottomTextInput.classList.add("border-stone-200");
     bottomTextInput.classList.remove("border-red-200");
     
-
-    
-
     try {
         
         const memeContainer : HTMLElement = document.createElement("div");
@@ -127,6 +130,8 @@ async function generateMeme() {
 }
 
 goButton.addEventListener("click", generateMeme);
+topTextInput.addEventListener("keydown", generateOnEnter);
+bottomTextInput.addEventListener("keydown", generateOnEnter);
 
 //clear input boxes on reload
 clearInputBoxes();
