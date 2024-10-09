@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/hw3-memegen-starter/",
+  base: "/hw-03-Alpha9304/",
 });
