@@ -27,4 +27,4 @@ A simple web application that uses the [Imgflip API](https://imgflip.com/api) to
 - https://stackoverflow.com/questions/2643305/centering-a-background-image-using-css
 - https://stackoverflow.com/questions/8200204/fit-background-image-to-div
 - To center text on its center point rather than its left point, ChatGPT made me aware of "-translate-x-1/2" which can shift the text back by 50% of its own width.
-- To have a better looking way than text-shadow to give my text a black outline, ChatGPT made me aware of "-webkit-text-stroke: 2px black;"
+- To have a better looking way than text-shadow to give my text a black outline, ChatGPT made me aware of "-webkit-text-stroke: 2px black".
