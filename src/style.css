@@ -2,8 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-
-.text-shadow{
-    /* offset-x | offset-y | blur-radius | color */
-    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+.text-outline {
+    -webkit-text-stroke: 3px black; /* Outline width and color */
 }
+

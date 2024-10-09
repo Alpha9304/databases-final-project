@@ -52,10 +52,14 @@ function clearInputBoxes(): void {
 function createMemeText(which: string): HTMLElement {
   const text: HTMLElement = document.createElement("h2");
   text.classList.add("absolute");
-  text.classList.add("text-xl");
   text.classList.add("left-1/2");
   text.classList.add("transform", "-translate-x-1/2");
-  text.classList.add("text-5xl", "text-white", "font-extrabold", "text-shadow");
+  text.classList.add(
+    "text-6xl",
+    "text-white",
+    "font-extrabold",
+    "text-outline",
+  );
   if (which === "top") {
     if (topTextInput.value === "") {
       throw new Error("Please enter text into both fields.");
