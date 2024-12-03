@@ -163,10 +163,42 @@ function generateOnEnter(event: KeyboardEvent): void {
   }
 }
 
+
+function runPHP() {
+  $.ajax({
+
+    url : './index.php',
+    type : 'POST',
+    success : function (result) {
+       console.log (result); // Here, you need to use response by PHP file.
+    },
+    error : function () {
+       console.log ('error');
+    }
+
+  });
+}
+
+
+function runPHP2() {
+  fetch('call_sql_model.py', {
+    method: 'POST'
+  })
+    .then(response => response.text())
+    .then(result => {
+      console.log(result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+goButton.addEventListener("click", runPHP);
+
 //add needed event listeners
-goButton.addEventListener("click", generateMeme);
-topTextInput.addEventListener("keydown", generateOnEnter);
-bottomTextInput.addEventListener("keydown", generateOnEnter);
+//goButton.addEventListener("click", generateMeme);
+//topTextInput.addEventListener("keydown", generateOnEnter);
+//bottomTextInput.addEventListener("keydown", generateOnEnter);
 
 //clear input boxes on reload
 clearInputBoxes();
