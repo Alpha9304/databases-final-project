@@ -1,5 +1,5 @@
 import "./style.css";
-
+//doesn't show the stuff, or work
 //define custom types
 type Meme = {
   id: string;
