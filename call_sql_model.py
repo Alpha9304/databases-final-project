@@ -66,7 +66,7 @@ CREATE TABLE competition (
 );
 
 
-CREATE TABLE Competition (
+CREATE TABLE other_options (
        orid 	 INTEGER NOT NULL,
        option_type		VARCHAR(65532) NOT NULL,
        FOREIGN KEY (orid) REFERENCES gun_Range(rid)

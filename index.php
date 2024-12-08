@@ -8,7 +8,16 @@
 
   ini_set('error_reporting', E_ALL);
   ini_set('display_errors', true);
-  // display error
+  // display errors
+
+  $db = mysqli_connect("localhost", "root", ""); 
+  // ********* Remember to use your MySQL username and password here ********* //
+
+  if (!$db) {
+    echo "Connection failed!";
+  }
+
+  mysqli_select_db($db, "cs415_fa24_gbemisola_db");
 
   echo "Before calling Python file";
 
@@ -27,8 +36,5 @@
   echo "After calling Python file";
   echo "<br>";
 
-  //next: connect to database on my database thing
-
- 
   ?>
 </body>
