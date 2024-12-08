@@ -1,13 +1,4 @@
-# Meme Generator
-
-A simple web application that uses the [Imgflip API](https://imgflip.com/api) to randomly select one of the 100 most popular meme images used in the last 30 days on the Imgflip website. Additionally, the app allows a user to enter top and bottom texts to be overlay on the meme image.
-
-## Features
-
-- Randomly select a meme image from the 100 most popular memes.
-- Overlay top and bottom text on the meme image.
-
-## Run locally
+## Run locally (not in use)
 
 - Clone this repository.
 - Navigate to the project directory.
@@ -17,14 +8,16 @@ A simple web application that uses the [Imgflip API](https://imgflip.com/api) to
 - Start generating memes!
 
 
-## Resources
-- https://tailwindcss.com/docs/
-- https://www.geeksforgeeks.org/how-to-place-text-on-image-using-html-and-css/#2-using-css-backgroundimage-to-place-text-on-the-image
-- https://stackoverflow.com/questions/54618144/tailwind-css-how-to-code-pixel-perfect-design
-- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_backgrounds_and_borders/Using_multiple_backgrounds
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase
-- https://stackoverflow.com/questions/67908209/how-to-convert-background-position-in-tailwind
-- https://stackoverflow.com/questions/2643305/centering-a-background-image-using-css
-- https://stackoverflow.com/questions/8200204/fit-background-image-to-div
-- To center text on its center point rather than its left point, ChatGPT made me aware of "-translate-x-1/2" which can shift the text back by 50% of its own width.
-- To have a better looking way than text-shadow to give my text a black outline, ChatGPT made me aware of "-webkit-text-stroke: 2px black".
+## How to Run This Project
+- Make sure you have Xampp 
+- Clone repo into C:/xampp/htdocs
+- In settings.json of vscode, set: "php.validate.executablePath": "C:/xampp/php/php.exe" (not sure if this is necessary, but if it is VSCode will prompt you)
+- pip install ollama to the interpreter you are using
+- Open Xampp Control Panel app
+- In the Control Panel, in the MySQL row, click admin. This will open phpMyAdmin
+- Click the Databases tab. Under create new database, enter the database name in the index.php file and hit create
+- Click the created database. Click the SQL tab. Enter the DDL SQL queries into the box and click "Go"
+- Run Apache from Xampp Control Panel 
+- Run MySql from Xampp Control Panel 
+- Navigate to: http://localhost/gun-range-website/index.html
+
