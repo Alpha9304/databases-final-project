@@ -11,3 +11,5 @@
 - Run MySql from Xampp Control Panel 
 - Navigate to: http://localhost/gun-range-website/index.html
 
+## Notes
+- Currently only using call_sql_model.py, index.html (landing page), and index.php
