@@ -1,13 +1,3 @@
-## Run locally (not in use)
-
-- Clone this repository.
-- Navigate to the project directory.
-- Install dependencies using `pnpm install`.
-- Start the development server with `pnpm run dev`.
-- Open your browser and navigate to `http://localhost:5173`.
-- Start generating memes!
-
-
 ## How to Run This Project
 - Make sure you have Xampp 
 - Clone repo into C:/xampp/htdocs

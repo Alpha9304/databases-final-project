@@ -17,7 +17,7 @@
     echo "Connection failed!";
   }
 
-  mysqli_select_db($db, "cs415_fa24_gbemisola_db");
+  mysqli_select_db($db, "cs415_fa24_sola_alex_db");
 
   echo "Before calling Python file";
 
