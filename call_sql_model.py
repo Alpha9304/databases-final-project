@@ -1,9 +1,86 @@
 #pip install ollama
 
+
 import ollama
 import sys
 from ollama import chat
 from ollama import ChatResponse
+
+import difflib
+
+replace_dict = {
+    "no" : "N",
+    "NO" : "N",
+    "yes" : "Y",
+    "YES" : "Y",
+    'AL': 'Alabama',
+    'AK': 'Alaska',
+    'AZ': 'Arizona',
+    'AR': 'Arkansas',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DE': 'Delaware',
+    'DC': 'District of Columbia',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'IA': 'Iowa',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'ME': 'Maine',
+    'MD': 'Maryland',
+    'MA': 'Massachusetts',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MS': 'Mississippi',
+    'MO': 'Missouri',
+    'MT': 'Montana',
+    'NE': 'Nebraska',
+    'NV': 'Nevada',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NY': 'New York',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah', 
+    'VT': 'Vermont',
+    'VA': 'Virginia',
+    'WA': 'Washington',
+    'WV': 'West Virginia',
+    'WI': 'Wisconsin',
+    'WY': 'Wyoming',
+    }
+
+def correct_model_output(output):
+    for replace, goal in replace_dict.items():
+       output = output.replace("'" + replace + "'", "'"  + goal + "'" ) #need to surrounding ticks or elese it will replace things like CO in COUNT
+    
+    output = output.replace("```", "") #get rid of the trailing backticks
+    return output
+
+def get_response(prompt):
+   response: ChatResponse = chat(model='sqlcoder', messages=[
+      {
+          'role': 'user',
+          'content': prompt,
+      },
+   ])
+   return response['message']['content']
 
 ollama.pull('sqlcoder')
 
@@ -16,6 +93,7 @@ Adhere to these rules:
 - When creating a ratio, always cast the numerator as float
 - Do not abbreviate state names; they should be strings longer than 2 characters
 - Try your hardest to avoid subqueries in your SQL queries
+- Only answer the question asked and only output the SQL query
 
 ### Input:
 Generate a SQL query that answers the question `{sys.argv[1]}.`
@@ -47,29 +125,29 @@ CREATE TABLE facility_details (
        public_events   VARCHAR(1) NOT NULL,
        membership_available		VARCHAR(1) NOT NULL,
        handicap_accessible    VARCHAR(1) NOT NULL,
-       FOREIGN KEY (frid) REFERENCES gun_Range(rid)
+       FOREIGN KEY (frid) REFERENCES gun_range(rid)
 );
 
 
 CREATE TABLE facility_instance (
        iid	 INTEGER NOT NULL,
-       Shooting_Type		VARCHAR(65532) NOT NULL,
-       Maximum_Distance		INTEGER NOT NULL,
-       FOREIGN KEY (iid) REFERENCES gun_Range(rid)
+       shooting_type		VARCHAR(65532) NOT NULL,
+       maximum_distance		INTEGER NOT NULL,
+       FOREIGN KEY (iid) REFERENCES gun_range(rid)
 );
 
 
 CREATE TABLE competition (
        rcid 	 INTEGER NOT NULL,
        competition_type		VARCHAR(65532) NOT NULL,
-       FOREIGN KEY (rcid) REFERENCES gun_Range(rid)
+       FOREIGN KEY (rcid) REFERENCES gun_range(rid)
 );
 
 
 CREATE TABLE other_options (
        orid 	 INTEGER NOT NULL,
        option_type		VARCHAR(65532) NOT NULL,
-       FOREIGN KEY (orid) REFERENCES gun_Range(rid)
+       FOREIGN KEY (orid) REFERENCES gun_range(rid)
 );
 
 -- rid can be joined with frid
@@ -79,22 +157,43 @@ CREATE TABLE other_options (
 --- state from gun_range can be joined with state from location
 --- the opposite of indoors is outdoors, so indoors with a value of 'N' means outdoors and with a vlaue of 'Y' means indoors
 --- postcode cannot be joined with anything
-
+--- shooting_types include handgun, rifle, shotgun, center-fire rifle, and smallbore rifle
+--- non-member events are the same as public events, and non-member events does not mean that members_only = 'N'
 
 ### Response:
 Based on your instructions, here is the SQL query I have generated to answer the question `{sys.argv[1]}`:
 ```sql
 """
 
+'''maybe do a few tries? not sure how best to compare to natural language though
+responses = []
+while(len(responses) < 3):
+   response = get_response(prompt)
+   if(response != ''):
+      responses.append(response)
 
-response: ChatResponse = chat(model='sqlcoder', messages=[
-  {
-    'role': 'user',
-    'content': prompt,
-  },
-])
+best_score = 0
+best_response = ''
+for i in range(len(responses)):
+    score = difflib.SequenceMatcher(None, sys.argv[1], responses[i]).ratio()
+    if(score > best_score):
+       best_score = score
+       best_response = responses[i]
 
-print(response['message']['content'])
+sql = best_response
+'''
+
+response = ''
+
+while(response == ''): #prevent empty response
+   response = get_response(prompt)
+
+sql = response
+
+#sql = "SELECT COUNT(DISTINCT gr.rid) AS number_of_ranges FROM gun_range gr JOIN facility_details fd ON gr.rid = fd.frid JOIN location l ON fd.indoor_accessible = 'Y' AND l.state = 'IL' WHERE gr.nssf_member = 'Y' AND gr.handicap_accessible = 'Y' AND gr.membership_available = 'Y' AND gr.public_events = 'Y'; ```"
+sql = correct_model_output(sql)
+
+print(sql)
 
 
 #print(prompt)

@@ -15,26 +15,29 @@
 
   if (!$db) {
     echo "Connection failed!";
+  } else {
+
+    mysqli_select_db($db, "cs415_fa24_sola_alex_db");
+
+    echo "Before calling Python file";
+
+    echo "<br>";
+
+    //will be user input in future
+    //$question = "How many gun ranges in Illinois provide facilities for handguns, rifles, and are certified by the NSSF?";
+
+    $question = $_POST['query'];
+
+    $escaped_question = escapeshellarg($question);
+
+    $output = shell_exec("python call_sql_model.py " .$escaped_question);
+
+    echo "Output is: ". $output;
+    echo "<br>";
+
+    echo "After calling Python file";
+    echo "<br>";
   }
-
-  mysqli_select_db($db, "cs415_fa24_sola_alex_db");
-
-  echo "Before calling Python file";
-
-  echo "<br>";
-
-  //will be user input in future
-  $question = "How many gun ranges in Illinois provide facilities for handguns, rifles, and are certified by the NSSF?";
-
-  $escaped_question = escapeshellarg($question);
-
-  $output = shell_exec("python call_sql_model.py " .$escaped_question);
-
-  echo "Output is: ". $output;
-  echo "<br>";
-
-  echo "After calling Python file";
-  echo "<br>";
 
   ?>
 </body>
