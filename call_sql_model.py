@@ -5,14 +5,18 @@ import ollama
 import sys
 from ollama import chat
 from ollama import ChatResponse
+import numpy as np
 
 import difflib
 
-replace_dict = {
+straight_swap_dict =  { #is he going to unify the yes/no to the schema or leave it?
     "no" : "N",
     "NO" : "N",
     "yes" : "Y",
-    "YES" : "Y",
+    "YES" : "Y"
+}
+
+state_dict = {
     'AL': 'Alabama',
     'AK': 'Alaska',
     'AZ': 'Arizona',
@@ -67,9 +71,12 @@ replace_dict = {
     }
 
 def correct_model_output(output):
-    for replace, goal in replace_dict.items():
-       output = output.replace("'" + replace + "'", "'"  + goal + "'" ) #need to surrounding ticks or elese it will replace things like CO in COUNT
+    for abbrev, state in state_dict.items():
+       output = output.replace("'" + state + "'", "'"  + abbrev + "'" ) #need to surrounding ticks or elese it will replace things like CO in COUNT
     
+    for replace, goal in straight_swap_dict.items(): #ended up seprating them because they are actually abbreviated states
+        output = output.replace("'" + replace + "'", "'"  + goal + "'" ) 
+
     output = output.replace("```", "") #get rid of the trailing backticks
     return output
 
@@ -82,7 +89,14 @@ def get_response(prompt):
    ])
    return response['message']['content']
 
+def cosine_similarity_mine(vector_a, vector_b):
+    dot_product = np.dot(vector_a, vector_b)
+    magnitude_a = np.linalg.norm(vector_a)
+    magnitude_b = np.linalg.norm(vector_b)
+    return dot_product / (magnitude_a * magnitude_b)
+
 ollama.pull('sqlcoder')
+ollama.pull("all-minilm")
 
 prompt = f""" 
 ### Instructions:
@@ -90,9 +104,8 @@ Your task is to convert a question into a SQL query, given a Postgres database s
 Adhere to these rules:
 - **Deliberately go through the question and database schema word by word** to appropriately answer the question
 - **Use Table Aliases** to prevent ambiguity. For example, `SELECT table1.col1, table2.col1 FROM table1 JOIN table2 ON table1.id = table2.id`.
-- When creating a ratio, always cast the numerator as float
 - Do not abbreviate state names; they should be strings longer than 2 characters
-- Try your hardest to avoid subqueries in your SQL queries
+- Try your hardest to avoid subqueries in your SQL queries, and make queries as short as possible
 - Only answer the question asked and only output the SQL query
 
 ### Input:
@@ -109,12 +122,13 @@ CREATE TABLE gun_range (
 
 
 CREATE TABLE location (
-       postcode		VARCHAR(11) PRIMARY KEY NOT NULL,
        state		VARCHAR(65532) NOT NULL,
+       postcode	VARCHAR(11) PRIMARY KEY NOT NULL,
        city		VARCHAR(65532) NOT NULL,
        country		VARCHAR(65532) NOT NULL,
        address  VARCHAR(65532) NOT NULL,
-       distance_from_user    INTEGER NOT NULL
+       distance_from_user    INTEGER NOT NULL,
+       FOREIGN KEY (state) REFERENCES gun_range(state)
 );
 
 
@@ -155,7 +169,7 @@ CREATE TABLE other_options (
 -- rid can be joined with orid
 -- rid can be joined with rcid
 --- state from gun_range can be joined with state from location
---- the opposite of indoors is outdoors, so indoors with a value of 'N' means outdoors and with a vlaue of 'Y' means indoors
+--- indoors with a value of 'N' means outdoors and indoors with a value of 'Y' means indoors
 --- postcode cannot be joined with anything
 --- shooting_types include handgun, rifle, shotgun, center-fire rifle, and smallbore rifle
 --- non-member events are the same as public events, and non-member events does not mean that members_only = 'N'
@@ -165,7 +179,7 @@ Based on your instructions, here is the SQL query I have generated to answer the
 ```sql
 """
 
-'''maybe do a few tries? not sure how best to compare to natural language though
+#do a few tries and get best
 responses = []
 while(len(responses) < 3):
    response = get_response(prompt)
@@ -175,20 +189,23 @@ while(len(responses) < 3):
 best_score = 0
 best_response = ''
 for i in range(len(responses)):
-    score = difflib.SequenceMatcher(None, sys.argv[1], responses[i]).ratio()
+    res_em = ollama.embeddings(model='all-minilm', prompt=responses[i])
+    nl_em = ollama.embeddings(model='all-minilm', prompt=sys.argv[1])
+    score = cosine_similarity_mine(np.array(res_em['embedding']).reshape(1,-1), np.array(nl_em['embedding']).reshape(-1,1))
     if(score > best_score):
        best_score = score
        best_response = responses[i]
 
 sql = best_response
-'''
 
+'''
 response = ''
 
-while(response == ''): #prevent empty response
+while(response == ''): #prevent empty response, not working? when it is empty, it is not even going throught python file?? I think fixed with loop in php...
    response = get_response(prompt)
 
 sql = response
+'''
 
 #sql = "SELECT COUNT(DISTINCT gr.rid) AS number_of_ranges FROM gun_range gr JOIN facility_details fd ON gr.rid = fd.frid JOIN location l ON fd.indoor_accessible = 'Y' AND l.state = 'IL' WHERE gr.nssf_member = 'Y' AND gr.handicap_accessible = 'Y' AND gr.membership_available = 'Y' AND gr.public_events = 'Y'; ```"
 sql = correct_model_output(sql)

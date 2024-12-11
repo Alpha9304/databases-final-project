@@ -1,13 +1,21 @@
 <html>
  <head>
   <title>Gun Range Site Form</title>
+  <link href="./src/output.css" rel="stylesheet">
  </head>
- <body>
+ <body class = "bg-amber-100">
+    <h1 class="text-4xl font-bold text-center">
+        Search For Gun Ranges 
+    </h1>
 
- <form action="index.php" method="post" accept-charset="utf-8">
-  query: <input type="text" name="query"><br>
-  <input type="Submit">
- </form>
+    <div id = "query_area" class = "mt-8 p-2">
+        <p class = "text-xl">Enter your query here:</p>
+        <p class="italic">(eg. How many gun ranges in Illinois provide facilities for handguns, rifles, and are certified by the NSSF?)</p>
+        <form action="index.php" method="post" accept-charset="utf-8">
+            <textarea class = "outline rounded" name="query" rows="4" cols="50"></textarea>
+        <input type="Submit" class = "outline rounded bg-white mb-4 ml-2 p-1">
+        </form>
+    </div>
 
  </body>
 </html>

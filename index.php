@@ -30,7 +30,11 @@
 
     $escaped_question = escapeshellarg($question);
 
-    $output = shell_exec("python call_sql_model.py " .$escaped_question);
+    $output = "";
+     
+    while($output == "") { 
+      $output = shell_exec("python call_sql_model.py " .$escaped_question);
+    }
 
     echo "Output is: ". $output;
     echo "<br>";
