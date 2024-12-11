@@ -127,8 +127,7 @@ CREATE TABLE location (
        city		VARCHAR(65532) NOT NULL,
        country		VARCHAR(65532) NOT NULL,
        address  VARCHAR(65532) NOT NULL,
-       distance_from_user    INTEGER NOT NULL,
-       FOREIGN KEY (state) REFERENCES gun_range(state)
+       distance_from_user    INTEGER NOT NULL
 );
 
 
