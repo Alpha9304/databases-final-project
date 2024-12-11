@@ -83,7 +83,7 @@
         
         }
       } catch (mysqli_sql_exception $e) {
-        echo "Something went wrong."; //will need to tell users about schema for them to be able to edit query...
+        echo "Something went wrong."; //will need to tell users about schema for them to be able to edit query...maybe display exception
       }     
     }
   ?>
