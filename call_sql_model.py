@@ -117,17 +117,18 @@ CREATE TABLE gun_range (
        phone		INTEGER NOT NULL,
        nssf_member   VARCHAR(1),
        email		VARCHAR(65532),
-       state    VARCHAR(65532) NOT NULL
+       address    VARCHAR(255) NOT NULL UNIQUE
 );
 
 
 CREATE TABLE location (
+       address  VARCHAR(255) PRIMARY KEY NOT NULL,
        state		VARCHAR(65532) NOT NULL,
-       postcode	VARCHAR(11) PRIMARY KEY NOT NULL,
+       postcode	VARCHAR(11) NOT NULL,
        city		VARCHAR(65532) NOT NULL,
        country		VARCHAR(65532) NOT NULL,
-       address  VARCHAR(65532) NOT NULL,
-       distance_from_user    INTEGER NOT NULL
+       distance_from_user    INTEGER NOT NULL,
+       FOREIGN KEY (address) REFERENCES gun_range(address)
 );
 
 
