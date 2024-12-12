@@ -113,27 +113,27 @@ Generate a SQL query that answers the question `{sys.argv[1]}.`
 This query will run on a database whose schema is represented in this string:
 CREATE TABLE gun_range (
        rid 	       INTEGER PRIMARY KEY NOT NULL,
-       name		VARCHAR(65532) NOT NULL,
+       name		VARCHAR(8000) NOT NULL,
        phone		INTEGER NOT NULL,
        nssf_member   VARCHAR(1),
-       email		VARCHAR(65532),
+       email		VARCHAR(8000),
        address    VARCHAR(255) NOT NULL UNIQUE
 );
 
 
 CREATE TABLE location (
        address  VARCHAR(255) PRIMARY KEY NOT NULL,
-       state		VARCHAR(65532) NOT NULL,
+       state		TEXT(8000) NOT NULL,
        postcode	VARCHAR(11) NOT NULL,
-       city		VARCHAR(65532) NOT NULL,
-       country		VARCHAR(65532) NOT NULL,
+       city		TEXT(8000) NOT NULL,
+       country		TEXT(8000) NOT NULL,
        distance_from_user    INTEGER NOT NULL,
        FOREIGN KEY (address) REFERENCES gun_range(address)
 );
 
 
 CREATE TABLE facility_details (
-       frid 	       INTEGER NOT NULL,
+       frid 	       INTEGER PRIMARY KEY NOT NULL,
        indoors       VARCHAR(1) NOT NULL,
        members_only		VARCHAR(1) NOT NULL,
        public_events   VARCHAR(1) NOT NULL,
@@ -143,24 +143,29 @@ CREATE TABLE facility_details (
 );
 
 
-CREATE TABLE facility_instance (
-       iid	 INTEGER NOT NULL,
-       shooting_type		VARCHAR(65532) NOT NULL,
-       maximum_distance		INTEGER NOT NULL,
-       FOREIGN KEY (iid) REFERENCES gun_range(rid)
+CREATE TABLE gun_type (
+       gid	 INTEGER NOT NULL,
+       g_type		VARCHAR(8000) NOT NULL,
+       FOREIGN KEY (gid) REFERENCES gun_range(rid)
+);
+
+CREATE TABLE distance (
+       did	 INTEGER NOT NULL,
+       type		VARCHAR(8000) NOT NULL,
+       FOREIGN KEY (did) REFERENCES gun_range(rid)
 );
 
 
 CREATE TABLE competition (
        rcid 	 INTEGER NOT NULL,
-       competition_type		VARCHAR(65532) NOT NULL,
+       competition_type		VARCHAR(8000) NOT NULL,
        FOREIGN KEY (rcid) REFERENCES gun_range(rid)
 );
 
 
 CREATE TABLE other_options (
        orid 	 INTEGER NOT NULL,
-       option_type		VARCHAR(65532) NOT NULL,
+       option_type		VARCHAR(8000) NOT NULL,
        FOREIGN KEY (orid) REFERENCES gun_range(rid)
 );
 

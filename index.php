@@ -70,7 +70,7 @@
           echo "<tr><td>CID</td><td>CName</td></tr>\n";
         
           while ($myrow = mysqli_fetch_array($result)) {
-            printf("<tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
+            printf("<tr><td>%s</td><td>%s</td></tr><tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
 
             // prevents SQL injection
             $escaped_address = mysqli_real_escape_string($db, $myrow["address"]);
