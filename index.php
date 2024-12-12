@@ -10,9 +10,13 @@
     
     // PHP code just started
 
+    // display errors
     ini_set('error_reporting', E_ALL);
     ini_set('display_errors', true);
-    // display errors
+    
+
+    //enable exceptions
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
     $db = mysqli_connect("localhost", "root", ""); 
     // ********* Remember to use your MySQL username and password here ********* //
@@ -56,6 +60,7 @@
       mysqli_select_db($db, "cs415_fa24_sola_alex_db");
 
       try {
+        //$throwing_result = mysqli_query($db, "SELECT * FROM Dne");
         $result = mysqli_query($db, $query);
         
 
@@ -83,7 +88,7 @@
         
         }
       } catch (mysqli_sql_exception $e) {
-        echo "Something went wrong."; //will need to tell users about schema for them to be able to edit query...maybe display exception
+        echo "Something went wrong: ".$e; //will need to tell users about schema for them to be able to edit query...maybe display exception
       }     
     }
   ?>

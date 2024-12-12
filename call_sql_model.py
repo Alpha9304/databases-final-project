@@ -144,7 +144,7 @@ CREATE TABLE facility_details (
 
 CREATE TABLE gun_type (
        gid	 INTEGER NOT NULL,
-       g_type		VARCHAR(8000) NOT NULL,
+       type		VARCHAR(8000) NOT NULL,
        FOREIGN KEY (gid) REFERENCES gun_range(rid)
 );
 
