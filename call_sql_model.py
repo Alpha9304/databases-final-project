@@ -127,7 +127,6 @@ CREATE TABLE location (
        postcode	VARCHAR(11) NOT NULL,
        city		TEXT(8000) NOT NULL,
        country		TEXT(8000) NOT NULL,
-       distance_from_user    INTEGER NOT NULL,
        FOREIGN KEY (address) REFERENCES gun_range(address)
 );
 
