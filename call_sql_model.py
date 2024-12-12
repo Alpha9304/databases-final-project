@@ -185,14 +185,22 @@ Based on your instructions, here is the SQL query I have generated to answer the
 
 #do a few tries and get best
 responses = []
+response_lengths = []
+total_length = 0
 while(len(responses) < 3):
    response = get_response(prompt)
    if(response != ''):
       responses.append(response)
+   response_lengths.append(len(response))
+   total_length += len(response)
+
+std_dev = np.std(response_lengths)
+mean = np.mean(response_lengths)
 
 best_score = 0
 best_response = ''
 for i in range(len(responses)):
+    length_penalty = ((len(responses[i]) - (mean))/std_dev) * -0.05 #use number of standard deviations from the mean to penalize overly long sql queries
     res_em = ollama.embeddings(model='all-minilm', prompt=responses[i])
     nl_em = ollama.embeddings(model='all-minilm', prompt=sys.argv[1])
     score = cosine_similarity_mine(np.array(res_em['embedding']).reshape(1,-1), np.array(nl_em['embedding']).reshape(-1,1))

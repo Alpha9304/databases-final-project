@@ -73,22 +73,16 @@
         
           echo "<table border=1>\n";
           echo "<tr><td>CID</td><td>CName</td></tr>\n";
-        
+
           while ($myrow = mysqli_fetch_array($result)) {
             printf("<tr><td>%s</td><td>%s</td></tr><tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
-
-            // prevents SQL injection
-            $escaped_address = mysqli_real_escape_string($db, $myrow["address"]);
-
-            // Get the location data for the  display
-            $location_result = mysqli_query($db, "SELECT * FROM location WHERE address = '$escaped_address'");
           }
         
           echo "</table>\n";
         
         }
       } catch (mysqli_sql_exception $e) {
-        echo "Something went wrong: ".$e; //will need to tell users about schema for them to be able to edit query...maybe display exception
+        echo "Something went wrong: ".$e; //show users this in a different place for better design
       }     
     }
   ?>
