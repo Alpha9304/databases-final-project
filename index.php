@@ -29,9 +29,9 @@
       if (isset($_POST['sql_query'])) {
         //case where user chooses to edit the query if there are errors
         $query = $_POST['sql_query'];
-        echo $query;
+        //echo $query;
       } else {
-        echo "Natural langauge";
+        //echo "Natural langauge";
         echo "Before calling Python file";
 
         echo "<br>";
@@ -49,11 +49,11 @@
           $query = shell_exec("python call_sql_model.py " .$escaped_question);
         }
 
-        echo "Output is: ". $query;
-        echo "<br>";
+        //echo "Output is: ". $query;
+        //echo "<br>";
 
-        echo "After calling Python file";
-        echo "<br>";
+        //echo "After calling Python file";
+        //echo "<br>";
 
       }
 
@@ -74,12 +74,26 @@
           if($result->num_rows === 0) {
             echo "No results";
           } else {
-        
-            echo "<table border=1>\n";
-            echo "<tr><td>Gun Range Name</td><td>Phone Number</td><td>Email</td><td>Address</td></tr>\n";
+            
+            $get_cols = mysqli_fetch_assoc($result);
+            $col_names = array_keys($get_cols);
 
+            echo "<table border=1 class = 'ml-2'>\n";
+            echo "<tr>";
+            foreach($col_names as $name) {
+              echo "<td>" . $name . "</td>";
+            }
+            echo "</tr>\n";
+
+            // Reset the result pointer
+            mysqli_data_seek($result, 0);
+          
             while ($myrow = mysqli_fetch_array($result)) {
-              printf("<tr><td>%s</td><td>%s</td></tr><tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
+              echo "<tr>";
+              foreach($col_names as $name) {
+                echo "<td>" . $myrow[$name] . "</td>";
+              }
+              echo "</tr>\n";
             }
           
             echo "</table>\n";
@@ -87,15 +101,22 @@
         
         }
       } catch (mysqli_sql_exception $e) {
-        echo "Something went wrong: ".$e; //show users this in a different place for better design
+        echo "Something went wrong. Please refer to this error to edit your query:";
+        echo "<br>";
+        echo $e; //show users this in a different place for better design?
       }     
     }
   ?>
   <div id = "re-query_area" class = "mt-8 p-2">
         <p class = "text-xl">Edit and retry your query:</p>
         <form action="index.php" method="post" accept-charset="utf-8">
-            <textarea class = "outline rounded" name="sql_query" rows="4" cols="50"><?php echo htmlspecialchars($query, ENT_QUOTES, 'UTF-8'); ?></textarea>
+            <textarea class = "outline rounded" name="sql_query" rows="8" cols="50"><?php echo htmlspecialchars($query, ENT_QUOTES, 'UTF-8'); ?></textarea>
         <input type="Submit" class = "outline rounded bg-white mb-4 ml-2 p-1">
         </form>
+  </div>
+  <!--it messes up join keys the most, so give the user this to help-->
+  <div id = "hint-box">
+    <p class = "text-bold ml-2">Helpful Info: </p>
+    <p class = "ml-2">gun_range table key: rid, location table foreign key: address, facility_details key: frid, gun_type table key: gid, distance table key: did, competiton table key: rcid, other_options (for shooting) table key: orid</p>
   </div>
 </body>
