@@ -78,7 +78,7 @@
             $get_cols = mysqli_fetch_assoc($result);
             $col_names = array_keys($get_cols);
 
-            echo "<table border=1 class = 'ml-2'>\n";
+            echo "<table border=1 class = 'ml-2'>\n"; //why is the table not showing
             echo "<tr>";
             foreach($col_names as $name) {
               echo "<td>" . $name . "</td>";
