@@ -70,15 +70,20 @@
           print mysqli_error($db);
         
         } else {
+ 
+          if($result->num_rows === 0) {
+            echo "No results";
+          } else {
         
-          echo "<table border=1>\n";
-          echo "<tr><td>CID</td><td>CName</td></tr>\n";
+            echo "<table border=1>\n";
+            echo "<tr><td>Gun Range Name</td><td>Phone Number</td><td>Email</td><td>Address</td></tr>\n";
 
-          while ($myrow = mysqli_fetch_array($result)) {
-            printf("<tr><td>%s</td><td>%s</td></tr><tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
+            while ($myrow = mysqli_fetch_array($result)) {
+              printf("<tr><td>%s</td><td>%s</td></tr><tr><td>%s</td><td>%s</td></tr>\n", $myrow["name"], $myrow["phone"], $myrow["email"], $myrow["address"]);
+            }
+          
+            echo "</table>\n";
           }
-        
-          echo "</table>\n";
         
         }
       } catch (mysqli_sql_exception $e) {

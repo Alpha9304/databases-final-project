@@ -150,7 +150,7 @@ CREATE TABLE gun_type (
 
 CREATE TABLE distance (
        did	 INTEGER NOT NULL,
-       type		VARCHAR(8000) NOT NULL,
+       amount		VARCHAR(8000) NOT NULL,
        FOREIGN KEY (did) REFERENCES gun_range(rid)
 );
 
