@@ -2,6 +2,7 @@
 - Make sure you have Xampp 
 - Clone repo into C:/xampp/htdocs/gun-range-website (make the gun-range-website folder in htdocs to put the cloned files into)
 - In settings.json of vscode, set: "php.validate.executablePath": "C:/xampp/php/php.exe" (not sure if this is necessary, but if it is VSCode will prompt you)
+- Run "pnpm install" in the terminal
 - pip install ollama to the interpreter you are using
 - Open Xampp Control Panel app
 - Run Apache from Xampp Control Panel 
