@@ -1,21 +1,46 @@
 <html>
  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gun Range Site Form</title>
   <link href="./src/output.css" rel="stylesheet">
+  <link rel="icon" href="./public/icon.png" />
  </head>
- <body class = "bg-amber-100">
-    <h1 class="text-4xl font-bold text-center">
+ <body class = "bg-amber-100 overflow-hidden">
+
+    <nav class="bg-emerald-800 rounded-sm border-gray-200 flex items-center justify-between">
+        <img src="./public/icon.png" style="width: 50px; height: 50px;" class="ml-2 mb-4" alt="Gun Range Search Site Logo" />
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul class="font-medium flex flex-row p-4 md:p-0 ml-4 mr-16 mt-12">
+            <li>
+                <a href="http://localhost/gun-range-website/index.html" class="block py-2 px-3 text-white hover:underline" aria-current="page">Home</a>
+            </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <h1 class="text-6xl font-bold italic font-mono text-center text-yellow-950 pt-4">
         Search For Gun Ranges 
     </h1>
 
-    <div id = "query_area" class = "mt-8 p-2">
+    <div id = "query_area" class = "mt-12 p-8">
         <p class = "text-xl">Enter your query here:</p>
         <p class="italic">(eg. How many gun ranges in Illinois provide facilities for handguns, rifles, and are certified by the NSSF?)</p>
-        <form action="index.php" method="post" accept-charset="utf-8">
-            <textarea class = "outline rounded" name="query" rows="4" cols="50"></textarea>
-        <input type="Submit" class = "outline rounded bg-white mb-4 ml-2 p-1">
+        <form action="index.php" method="post" accept-charset="utf-8" class="flex items-center gap-2 mt-4">
+            <textarea class = "outline rounded mt-4" name="query" rows="5" cols="50"></textarea>
+        <input type="Submit" class = "outline rounded bg-white p-2 ml-2 mt-24">
         </form>
-    </div>    
+    </div>  
+    
+    <footer class="bg-emerald-800 rounded-sm shadow mt-52 p-3">
+        <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+          <span class="text-sm text-white sm:text-center">© 2024 <a href="#" class="hover:underline"></a>. All Rights Reserved.
+        </span>
+        <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+           
+        </ul>
+        </div>
+    </footer>
  </body>
 </html>
 
