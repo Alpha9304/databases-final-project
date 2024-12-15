@@ -138,7 +138,7 @@
     </div>
   </div>
 
-  <footer class="bg-emerald-800 rounded-sm shadow mt-32 p-5">
+  <footer class="bg-emerald-800 rounded-sm shadow mt-36 p-5">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
           <span class="text-sm text-white sm:text-center">© 2024 <a href="#" class="hover:underline"></a>. All Rights Reserved.
         </span>
