@@ -1,3 +1,4 @@
+/*
 import "./style.css";
 
 const goButton: HTMLButtonElement = document.getElementById(
@@ -38,4 +39,4 @@ function runPHP2() {
 goButton.addEventListener("click", runPHP);
 
 //keeping this for now just in case we have time to add JS
-
+*/
