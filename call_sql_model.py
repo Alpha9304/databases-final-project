@@ -155,24 +155,11 @@ CREATE TABLE distance (
 );
 
 
-CREATE TABLE competition (
-       rcid 	 INTEGER NOT NULL,
-       competition_type		VARCHAR(8000) NOT NULL,
-       FOREIGN KEY (rcid) REFERENCES gun_range(rid)
-);
-
-
-CREATE TABLE other_options (
-       orid 	 INTEGER NOT NULL,
-       option_type		VARCHAR(8000) NOT NULL,
-       FOREIGN KEY (orid) REFERENCES gun_range(rid)
-);
 
 -- rid can be joined with frid
--- frid can be joined with iid
--- rid can be joined with orid
--- rid can be joined with rcid
---- state from gun_range can be joined with state from location
+-- rid can be joined with gid
+-- rid can be joined with did
+--- address from gun_range can be joined with address from location
 --- indoors with a value of 'N' means outdoors and indoors with a value of 'Y' means indoors
 --- postcode cannot be joined with anything
 --- shooting_types include handgun, rifle, shotgun, center-fire rifle, and smallbore rifle

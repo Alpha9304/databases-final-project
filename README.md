@@ -10,6 +10,7 @@
 - In the Control Panel, in the MySQL row, click admin. This will open phpMyAdmin
 - Click the Databases tab. Under create new database, enter the database name in the index.php file and hit create
 - Click the created database. Click the SQL tab. Enter the DDL SQL queries into the box and click "Go"
+- Copy all the content of insert_ranges.sql and paste it into the SQL query box (same place you entered the DDL) and click "Go"
 - Navigate to: http://localhost/gun-range-website/index.html
 
 ## Notes
