@@ -163,7 +163,7 @@ CREATE TABLE distance (
 --- address from gun_range can be joined with address from location
 --- indoors with a value of 'N' means outdoors and indoors with a value of 'Y' means indoors
 --- postcode cannot be joined with anything
---- shooting_types include handgun, rifle, shotgun, center-fire rifle, and smallbore rifle
+--- shooting_types include handguns, rifles, shotguns, center-fire rifles, and smallbore rifles
 --- non-member events are the same as public events, and non-member events does not mean that members_only = 'N'
 
 ### Response:

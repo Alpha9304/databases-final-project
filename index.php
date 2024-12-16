@@ -5,7 +5,7 @@
   <link href="./src/output.css" rel="stylesheet">
   <link rel="icon" href="./public/icon.png" />
  </head>
- <body class = "bg-amber-100 overflow-hidden">
+ <body class = "bg-amber-100">
   <nav class="bg-emerald-800 rounded-sm border-gray-200 flex items-center justify-between">
           <img src="./public/icon.png" style="width: 50px; height: 50px;" class="ml-2 mb-4" alt="Gun Range Search Site Logo" />
           <div class="hidden w-full md:block md:w-auto" id="navbar-default">
@@ -124,16 +124,15 @@
           </form>
     </div>
     <!--it messes up join keys the most, so give the user this to help-->
-    <div id = "hint-box" class = "border border-black border-2 rounded-lg bg-white w-80 ml-96 pl-8 pr-8 pb-2 mt-36 absolute right-5 shadow-lg">
+    <div id = "hint-box" class = "border border-black border-2 rounded-lg bg-white w-80 ml-96 pl-8 pr-8 pb-2 mt-36 mb-8 absolute right-5 shadow-lg">
       <h3 class = "font-bold italic text-center">Helpful Info (Joinable Keys): </h3>
       <ul class="font-medium flex flex-col list-disc">
         <li>gun_range table key: rid</li>
         <li>location table key: address (foreign) </li>
         <li>facility_details key: frid (foreign) </li>
         <li>gun_type table key: gid (foreign) </li>
-        <li>distance table key: did (foreign) </li>
-        <li>competiton table key: rcid (foreign) </li>
-        <li>other_options (for shooting) table key: orid (foreign)</li>
+        <li> (shooting) distance table key: did (foreign) </li>
+        <li>amount in distance table is in feet, but enter a plain integer value</li>
       </ul>
     </div>
   </div>
