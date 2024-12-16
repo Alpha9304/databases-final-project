@@ -1,7 +1,7 @@
 import csv
 
-input_csv_file = "updated_gun_ranges.csv"
-output_sql_file = "updated_insert_ranges.sql"
+input_csv_file = "gun_ranges.csv"
+output_sql_file = "insert_ranges.sql"
 
 def map_yes_no(val):
     if not val or val.strip() == '':
@@ -39,15 +39,22 @@ def split_columns(column_data):
     return [val.strip() for val in column_data.split(',') if val.strip()]
 
 def clean_up_str(s):
-    if s is None or s.strip() == '':
+    """
+    Returns a properly escaped SQL string, preserving leading/trailing spaces 
+    that are deliberately added to differentiate duplicates.
+    """
+    if s is None or s == '':
+        return 'NULL'
+    if s.strip() == '':
         return 'NULL'
     return "'" + s.replace("'", "''") + "'"
+
+seen_addresses = set()
 
 with open(input_csv_file, mode='r', encoding='utf-8-sig') as csvfile, open(output_sql_file, mode='w', encoding='utf-8') as sqlfile:
     reader = list(csv.DictReader(csvfile))
     total_rows = len(reader)
     for i, row in enumerate(reader, 1):
-        print(1)
         rid_str = row.get('id', '').strip()
         if not rid_str:
             continue
@@ -55,6 +62,8 @@ with open(input_csv_file, mode='r', encoding='utf-8-sig') as csvfile, open(outpu
             rid = int(rid_str)
         except ValueError:
             continue
+        
+        # Extract fields from CSV
         name = row.get('name', '')
         address = row.get('street_address', '')
         state = row.get('state', '')
@@ -68,47 +77,59 @@ with open(input_csv_file, mode='r', encoding='utf-8-sig') as csvfile, open(outpu
         distance_str = row.get('distance', '')
         competition_str = row.get('competition', '')
         website = row.get('website', '')
+
         try:
             phone = int(phone_str)
         except ValueError:
             phone = 0
-        nssf_member_mapped = map_yes_no(nssf)
-        email_escaped = clean_up_str(website)
+
         if not address.strip():
             continue
+        
+        while address in seen_addresses:
+            address = ' ' + address
+        seen_addresses.add(address)
+        nssf_member_mapped = map_yes_no(nssf)
+        email_escaped = clean_up_str(website)
         name_escaped = clean_up_str(name)
         address_escaped = clean_up_str(address)
+        state_escaped = clean_up_str(state)
+        city_escaped = clean_up_str(city)
+        zipcode_escaped = clean_up_str(zipcode)
+        
         sqlfile.write(
             f"INSERT INTO gun_range (rid, name, phone, nssf_member, email, address) "
             f"VALUES ({rid}, {name_escaped}, {phone}, {nssf_member_mapped}, {email_escaped}, {address_escaped});\n"
         )
-        state_escaped = clean_up_str(state)
-        city_escaped = clean_up_str(city)
-        zipcode_escaped = clean_up_str(zipcode)
         sqlfile.write(
             f"INSERT INTO location (address, state, postcode, city, country) "
             f"VALUES ({address_escaped}, {state_escaped}, {zipcode_escaped}, {city_escaped}, 'USA');\n"
         )
+        
         indoors, members_only, public_events, membership_available, handicap_accessible = parse_facility_details(facility_detail)
         sqlfile.write(
             f"INSERT INTO facility_details (frid, indoors, members_only, public_events, membership_available, handicap_accessible) "
             f"VALUES ({rid}, {indoors}, {members_only}, {public_events}, {membership_available}, {handicap_accessible});\n"
         )
+        
         gun_types = split_columns(shooting_available)
         for gt in gun_types:
             gt_escaped = clean_up_str(gt)
             sqlfile.write(f"INSERT INTO gun_type (gid, type) VALUES ({rid}, {gt_escaped});\n")
+        
         distances = split_columns(distance_str)
         for d in distances:
             d_escaped = clean_up_str(d)
             sqlfile.write(f"INSERT INTO distance (did, amount) VALUES ({rid}, {d_escaped});\n")
+        
         competitions = split_columns(competition_str)
         for c in competitions:
             c_escaped = clean_up_str(c)
             sqlfile.write(f"INSERT INTO competition (rcid, competition_type) VALUES ({rid}, {c_escaped});\n")
+        
         other_opts = split_columns(service)
         for opt in other_opts:
             opt_escaped = clean_up_str(opt)
             sqlfile.write(f"INSERT INTO other_options (orid, option_type) VALUES ({rid}, {opt_escaped});\n")
+        
         sqlfile.write("\n")
-
