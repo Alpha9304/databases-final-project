@@ -13,5 +13,8 @@
 - Copy all the content of insert_ranges.sql and paste it into the SQL query box (same place you entered the DDL) and click "Go"
 - Navigate to: http://localhost/gun-range-website/index.html
 
+## To View Commit History
+- View the GitHub repo: https://github.com/Alpha9304/databases-final-project
+
 ## Notes
 - Not currently using main.ts
