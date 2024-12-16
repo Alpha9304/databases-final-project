@@ -111,6 +111,7 @@ Adhere to these rules:
 ### Input:
 Generate a SQL query that answers the question `{sys.argv[1]}.`
 This query will run on a database whose schema is represented in this string:
+
 CREATE TABLE gun_range (
        rid 	       INTEGER PRIMARY KEY NOT NULL,
        name		VARCHAR(8000) NOT NULL,
