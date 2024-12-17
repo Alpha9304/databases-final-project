@@ -165,6 +165,7 @@ CREATE TABLE distance (
 --- postcode cannot be joined with anything
 --- shooting_types include handguns, rifles, shotguns, center-fire rifles, and smallbore rifles
 --- non-member events are the same as public events, and non-member events does not mean that members_only = 'N'
+--- use LIKE to check compare to values for attribute amount
 
 ### Response:
 Based on your instructions, here is the SQL query I have generated to answer the question `{sys.argv[1]}`:

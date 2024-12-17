@@ -132,7 +132,6 @@
         <li>facility_details key: frid (foreign) </li>
         <li>gun_type table key: gid (foreign) </li>
         <li> (shooting) distance table key: did (foreign) </li>
-        <li>amount in distance table is in feet, but enter a plain integer value</li>
         <li>gun_type types are plural (eg. handguns)</li>
       </ul>
     </div>
